@@ -1,0 +1,76 @@
+{
+    "menu": {
+        "firstCourse": {
+            "meals": {
+                "meal1": {
+                    "price": 25,
+                    "title": "Борщ пісний"
+                },
+                "meal2": {
+                    "price": 25,
+                    "title": "Курячий бульон"
+                },
+                "meal3": {
+                    "price": 25,
+                    "title": "Сирний суп"
+                },
+                "meal4": {
+                    "price": 25,
+                    "title": "Окрошка"
+                }
+            },
+            "title": "Перша страва"
+        },
+        "secondCourse": {
+            "title" : "Друга страва",
+            "meals": {
+                "meal1": {
+                    "title": "Печінка карамелізована з картоплею",
+                    "price": 40,
+                    "dayAvailable": 1
+                },
+                "meal2": {
+                    "title": "Біток яловичий з грибною піджаркою та гречкою",
+                    "price": 45,
+                    "dayAvailable": 2
+                },
+                "meal3": {
+                    "title": "Курячий кебаб з тушкованою капустою",
+                    "price": 45,
+                    "dayAvailable": 3
+                },
+                "meal4": {
+                    "title": "Бефстроганов з картоплею",
+                    "price": 45,
+                    "dayAvailable": 4
+                },
+                "meal5": {
+                    "title": "Рис по-тайські зі свининою та овочами",
+                    "price": 45,
+                    "dayAvailable": 5
+                }
+            }
+        },
+        "salads" : {
+            "title" : "Салати на вибiр",
+            "meals" : {
+                "meal1": {
+                    "title": "Цезар",
+                    "price": 30
+                },
+                "meal2": {
+                    "title": "Салат з кіноа та курячою грудкою",
+                    "price": 35
+                },
+                "meal3": {
+                    "title": "Салат з мідіями",
+                    "price": 30
+                },
+                "meal4": {
+                    "title": "З печених баклажанів з морквою",
+                    "price": 20
+                }
+            }
+        }
+    }
+}
