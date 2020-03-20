@@ -6,7 +6,7 @@ const order = props => {
         return null;
     }
     const categories = props.categories.map((category, index) => 
-        <Category meals={category.meals} key={'#category' + index}/>
+        <Category meals={category.meals} title={category.title} key={'#category' + index}/>
     );
     return (
         <div>

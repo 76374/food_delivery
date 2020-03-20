@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import Order from './components/Order'
+import Order from './components/Order/Order'
 import { initMenu } from './store/actions'
 
 function App() {
