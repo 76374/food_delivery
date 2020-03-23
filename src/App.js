@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
-import Order from './components/Order/Order'
+import Order from './containers/Order/Order'
 import { initMenu } from './store/actions'
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="App">
-      {menuData ? <Order categories={menuData}/> : null}
+      {menuData ? <Order/> : null}
     </div>
   );
 }
