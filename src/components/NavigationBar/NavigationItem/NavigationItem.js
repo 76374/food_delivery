@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './NavigationItem.module.css';
+import { NavLink } from 'react-router-dom';
 
 const NavigationItem = props => (
-    <a className={styles.NavigationItem} href={props.link}>{props.text}</a>
+    <NavLink className={styles.NavigationItem} to={props.link}>{props.text}</NavLink>
 )
 
 export default NavigationItem;

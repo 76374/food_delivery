@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import Order from './containers/Order/Order'
 import { initMenu } from './store/actions'
@@ -12,14 +13,19 @@ function App() {
 
   useEffect(() => {
     dispatch(initMenu());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="App">
-      <TopBar/>
-      {menuData ? <Order/> : null}
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <TopBar />
+        <Switch>
+          <Route path="/order" exact component={menuData ? Order : null}/> 
+          <Redirect to="/order"/>
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
