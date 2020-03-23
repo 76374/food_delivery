@@ -1,0 +1,12 @@
+.NavigationItem {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.NavigationItem a:hover,
+.NavigationItem a:active,
+.NavigationItem a.active {
+    border-bottom: 4px solid #000;
+}
