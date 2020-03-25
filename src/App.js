@@ -6,9 +6,10 @@ import Order from './containers/Order/Order'
 import TopBar from './containers/TopBar/TopBar';
 import Checkout from './containers/Checkout/Checkout';
 import OrderSuccess from './containers/OrderSuccess/OrderSuccess';
+import Loading from './components/Loading/Loading';
+import ErrorHandler from './containers/ErrorHandler/ErrorHandler';
 import { initMenu } from './store/actions/order'
 import { ORDER, CHECKOUT, ORDER_SUCCESS } from './store/AppPaths';
-import Loading from './components/Loading/Loading';
 
 function App() {
   const menuData = useSelector(state => state.order.menuData);
@@ -24,6 +25,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        <ErrorHandler />
         {loading ? <Loading /> : null}
         <TopBar />
         <Switch>

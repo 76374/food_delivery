@@ -46,6 +46,7 @@ export default (state = initialState, action) => {
             return orderedItemsCountChanged(state, action.payload.categoryId, action.payload.itemId, action.payload.count);
         case ORDER_SENT_SUCCESS:
             return orderSentSuccess(state);
-        default: return state;
+        default:
+            return state;
     }
 };

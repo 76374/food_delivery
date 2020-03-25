@@ -1,8 +1,9 @@
-import { PROCESS_ADDED, PROCESS_REMOVED } from "../actionTypes";
+import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED } from "../actionTypes";
 import { combineObjects } from "../utils";
 
 const initialState = {
-    loading: false
+    loading: false,
+    error: null
 };
 
 const processes = [];
@@ -24,12 +25,18 @@ const processRemoved = (state, id) => {
     return combineObjects(state, { loading: processes.length > 0 });
 }
 
+const errorOccured = (state, payload) => {
+    return combineObjects(state, { error: payload });
+}
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case PROCESS_ADDED:
             return processAdded(state, action.payload);
         case PROCESS_REMOVED:
             return processRemoved(state, action.payload);
+        case ERROR_OCCURED:
+            return errorOccured(state, action.payload);
         default:
             return state;
     }

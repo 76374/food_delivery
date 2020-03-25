@@ -1,0 +1,15 @@
+.Background {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: #fff6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Popup {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    padding: 20px;
+}
