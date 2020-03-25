@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import Order from './containers/Order/Order'
-import { initMenu } from './store/actions'
 import TopBar from './containers/TopBar/TopBar';
+import Checkout from './containers/Checkout/Checkout';
+import OrderSuccess from './containers/OrderSuccess/OrderSuccess';
+import { initMenu } from './store/actions'
+import { ORDER, CHECKOUT, ORDER_SUCCESS } from './store/AppPaths';
 
 function App() {
   const menuData = useSelector(state => state.order.menuData);
@@ -21,8 +24,10 @@ function App() {
       <div className="App">
         <TopBar />
         <Switch>
-          <Route path="/order" exact component={menuData ? Order : null}/> 
-          <Redirect to="/order"/>
+          <Route path={ORDER} exact component={menuData ? Order : null} />
+          <Route path={CHECKOUT} exact component={Checkout} />
+          <Route path={ORDER_SUCCESS} exact component={OrderSuccess} />
+          <Redirect to={ORDER} />
         </Switch>
       </div>
     </BrowserRouter>

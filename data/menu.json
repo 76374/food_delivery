@@ -1,7 +1,7 @@
 {
     "menu": {
         "firstCourse": {
-            "meals": {
+            "items": {
                 "meal1": {
                     "price": 25,
                     "title": "Борщ пісний"
@@ -23,7 +23,7 @@
         },
         "secondCourse": {
             "title" : "Друга страва",
-            "meals": {
+            "items": {
                 "meal1": {
                     "title": "Печінка карамелізована з картоплею",
                     "price": 40,
@@ -53,7 +53,7 @@
         },
         "salads" : {
             "title" : "Салати на вибiр",
-            "meals" : {
+            "items" : {
                 "meal1": {
                     "title": "Цезар",
                     "price": 30

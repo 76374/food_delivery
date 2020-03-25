@@ -3,8 +3,8 @@ import MealCard from './MealCard/MealCard';
 import styles from './Category.module.css';
 
 const Category = props => {
-    const items = props.meals.map((item, index) => {
-        const orderDetails = props.orderedItems.find(orderedItem => orderedItem.mealId === item.id);
+    const items = props.items.map((item, index) => {
+        const orderDetails = props.orderedItems.find(orderedItem => orderedItem.itemId === item.id);
         return <MealCard
             title={item.title}
             price={item.price}

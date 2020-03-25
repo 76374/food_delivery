@@ -9,16 +9,16 @@ const Order = () => {
 
     const dispatch = useDispatch();
 
-    const onItemsCountChanged = (categoryId, mealId, count) => {
-        dispatch(orderedItemsCountChanged(categoryId, mealId, count));
+    const onItemsCountChanged = (categoryId, itemId, count) => {
+        dispatch(orderedItemsCountChanged(categoryId, itemId, count));
     }
 
     const categories = menuData.map((category, index) =>
         <Category
-            meals={category.meals}
+            items={category.items}
             title={category.title}
             key={'#category' + index}
-            itemsCountChanged={(mealId, count) => { onItemsCountChanged(category.id, mealId, count); }}
+            itemsCountChanged={(itemId, count) => { onItemsCountChanged(category.id, itemId, count); }}
             orderedItems={orderedItems.filter(item => item.categoryId === category.id)}
         />
     );
