@@ -1,3 +1,0 @@
-export {
-    initMenu
-} from './order';

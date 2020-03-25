@@ -1,0 +1,9 @@
+.Loading {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #fff6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

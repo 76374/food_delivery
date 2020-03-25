@@ -6,11 +6,13 @@ import Order from './containers/Order/Order'
 import TopBar from './containers/TopBar/TopBar';
 import Checkout from './containers/Checkout/Checkout';
 import OrderSuccess from './containers/OrderSuccess/OrderSuccess';
-import { initMenu } from './store/actions'
+import { initMenu } from './store/actions/order'
 import { ORDER, CHECKOUT, ORDER_SUCCESS } from './store/AppPaths';
+import Loading from './components/Loading/Loading';
 
 function App() {
   const menuData = useSelector(state => state.order.menuData);
+  const loading = useSelector(state => state.appState.loading)
 
   const dispatch = useDispatch();
 
@@ -22,6 +24,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        {loading ? <Loading /> : null}
         <TopBar />
         <Switch>
           <Route path={ORDER} exact component={menuData ? Order : null} />

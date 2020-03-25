@@ -8,9 +8,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import order from './store/reducers/order';
+import appState from './store/reducers/appState';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const reducers = combineReducers({ order });
+const reducers = combineReducers({ order, appState });
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
