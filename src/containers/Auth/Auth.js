@@ -8,6 +8,8 @@ const Auth = props => {
     const dispatch = useDispatch();
 
     const onSubmit = authData => {
+        localStorage.setItem('firstName', authData.firstName);
+        localStorage.setItem('lastName', authData.lastName);
         dispatch(authSubmited(authData));
         props.history.goBack();
     }

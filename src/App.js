@@ -12,6 +12,7 @@ import Auth from './containers/Auth/Auth';
 import Logout from './containers/Logout/Logout';
 import { initMenu } from './store/actions/order'
 import { ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT } from './store/AppPaths';
+import { authSubmited } from './store/actions/appState';
 
 
 function App() {
@@ -22,6 +23,13 @@ function App() {
 
   useEffect(() => {
     dispatch(initMenu());
+
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
+    if (firstName && lastName) {
+      dispatch(authSubmited({ firstName, lastName }))
+    }
+
   }, [dispatch]);
 
   return (
