@@ -1,0 +1,19 @@
+.AuthForm {
+    padding: 20px;
+}
+
+.AuthForm p {
+    margin: 0px;
+}
+
+.InputField {
+    margin: 10px;
+}
+
+.AuthForm input {
+    width: 300px;
+}
+
+.InvalidInput {
+    background-color: #fbb;
+}

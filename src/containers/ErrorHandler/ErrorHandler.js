@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorPopup from '../../components/ErrorPopup/ErrorPopup';
+import ErrorPopup from '../../components/Popups/ErrorPopup/ErrorPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { errorOccured } from '../../store/actions/appState';
 

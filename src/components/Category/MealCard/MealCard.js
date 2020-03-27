@@ -14,7 +14,6 @@ const item = props => {
         }));
     }
     buttons.push(getButton('додати', "#mealCardBtAdd", () => {
-        console.log('onClick');
         props.itemsCountChanged(props.orderedCount ? props.orderedCount + 1 : 1);
     }));
 

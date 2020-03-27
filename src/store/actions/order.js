@@ -43,13 +43,13 @@ export const orderConfirmed = (orderData) => {
         const PROCESS_ID = 'order';
         dispatch(processAdded(PROCESS_ID));
         axios.post(ORDERS_PATH, getOrederRequest(orderData))
+            .then(response => {
+                dispatch(orderSentSuccess());
+            })
             .catch(error => {
-                dispatch(processRemoved(PROCESS_ID));
                 dispatch(errorOccured(error.message));
             })
             .then(response => {
-                console.log(response);
-                dispatch(orderSentSuccess());
                 dispatch(processRemoved(PROCESS_ID));
             });
     }

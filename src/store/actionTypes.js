@@ -5,3 +5,5 @@ export const ORDER_SENT_SUCCESS = 'ORDER_SENT_SUCCESS';
 export const PROCESS_ADDED = 'PROCESS_ADDED';
 export const PROCESS_REMOVED = 'PROCESS_REMOVED';
 export const ERROR_OCCURED = 'ERROR_OCCURED';
+export const AUTH_SUBMITED = 'AUTH_SUBMITED';
+export const LOGOUT = 'LOGOUT';

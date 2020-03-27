@@ -1,9 +1,10 @@
-import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED } from "../actionTypes";
+import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED, AUTH_SUBMITED, LOGOUT } from "../actionTypes";
 import { combineObjects } from "../utils";
 
 const initialState = {
     loading: false,
-    error: null
+    error: null,
+    authData: null
 };
 
 const processes = [];
@@ -29,6 +30,14 @@ const errorOccured = (state, payload) => {
     return combineObjects(state, { error: payload });
 }
 
+const authSubmited = (state, authData) => {
+    return combineObjects(state, { authData });
+}
+
+const logout = state => {
+    return combineObjects(state, { authData: null });
+}
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case PROCESS_ADDED:
@@ -37,6 +46,10 @@ export default (state = initialState, action) => {
             return processRemoved(state, action.payload);
         case ERROR_OCCURED:
             return errorOccured(state, action.payload);
+        case AUTH_SUBMITED:
+            return authSubmited(state, action.payload);
+        case LOGOUT:
+            return logout(state);
         default:
             return state;
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ErrorPopup.module.css';
+import Popup from '../Popup/Popup'
 
 const ErrorPopup = props => {
     const onClick = () => {
@@ -8,12 +8,12 @@ const ErrorPopup = props => {
         }
     }
     return (
-        <div className={styles.Background}>
-            <div className={styles.Popup}>
+        <Popup children={
+            <React.Fragment>
                 <p>{props.message}</p>
                 <button onClick={onClick}>Зрозумiло...</button>
-            </div>
-        </div>
+            </React.Fragment>
+        } />
     );
 };
 

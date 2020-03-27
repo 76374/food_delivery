@@ -8,8 +8,11 @@ import Checkout from './containers/Checkout/Checkout';
 import OrderSuccess from './containers/OrderSuccess/OrderSuccess';
 import Loading from './components/Loading/Loading';
 import ErrorHandler from './containers/ErrorHandler/ErrorHandler';
+import Auth from './containers/Auth/Auth';
+import Logout from './containers/Logout/Logout';
 import { initMenu } from './store/actions/order'
-import { ORDER, CHECKOUT, ORDER_SUCCESS } from './store/AppPaths';
+import { ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT } from './store/AppPaths';
+
 
 function App() {
   const menuData = useSelector(state => state.order.menuData);
@@ -19,8 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(initMenu());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>
@@ -32,6 +34,8 @@ function App() {
           <Route path={ORDER} exact component={menuData ? Order : null} />
           <Route path={CHECKOUT} exact component={Checkout} />
           <Route path={ORDER_SUCCESS} exact component={OrderSuccess} />
+          <Route path={AUTH} exact component={Auth} />
+          <Route path={LOGOUT} exact component={Logout} />
           <Redirect to={ORDER} />
         </Switch>
       </div>

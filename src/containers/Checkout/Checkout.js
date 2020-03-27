@@ -1,18 +1,25 @@
- import React from 'react';
+ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CheckoutItem from '../../components/CheckoutItem/CheckoutItem';
 import { orderConfirmed } from '../../store/actions/order';
 import { ORDER_SUCCESS } from '../../store/AppPaths';
+import { Redirect } from 'react-router';
+import AuthPopup from '../../components/Popups/AuthPopup/AuthPopup';
+import { authSubmited } from '../../store/actions/appState';
 
  const Checkout = props => {
     const menuData = useSelector(state => state.order.menuData);
     const orderedItems = useSelector(state => state.order.orderedItems);
     const orderSentSuccess = useSelector(state => state.order.orderSentSuccess);
+    const authorized = useSelector(state => Boolean(state.appState.authData));
+
+    const [authPending, setAuthPending] = useState(false);
+    const [confirming, setConfirming] = useState(false);
 
     const dispatch = useDispatch();
 
-    if (orderSentSuccess) {
-        props.history.push(ORDER_SUCCESS);
+    if (confirming && orderSentSuccess) {
+        return <Redirect to={ORDER_SUCCESS}/>
     }
 
     if (!orderedItems || orderedItems.length <= 0) {
@@ -21,27 +28,61 @@ import { ORDER_SUCCESS } from '../../store/AppPaths';
         );
     }
 
-    const checkoutItems = orderedItems.map(orderedItem => {
+    const checkoutItems = [];
+    let totalPrice = 0;
+
+    orderedItems.forEach(orderedItem => {
         const ctgr = menuData.find(c => c.id === orderedItem.categoryId);
         const item = ctgr.items.find(m => m.id === orderedItem.itemId);
-        return (
+        checkoutItems.push(
             <CheckoutItem
-                key={ctgr.id + '__' + item.id}
+                key={'#checkout-item-' + ctgr.id + '__' + item.id}
                 title={item.title}
                 price={item.price}
                 count={orderedItem.count}
             />
         );
+        totalPrice += item.price * orderedItem.count;
     });
+    checkoutItems.push(
+        <CheckoutItem
+            key="#checkout-item-total-price"
+            title="Всього"
+            price={totalPrice}
+        />
+    );
 
     const onSendClick = () => {
+        if (authorized) {
+            setConfirming(true);
+            dispatch(orderConfirmed(orderedItems));
+        } else {
+            setAuthPending(true);
+        }
+    };
+
+    const onAuthSubmit = authData => {
+        setAuthPending(false);
+        setConfirming(true);
+        dispatch(authSubmited(authData));
         dispatch(orderConfirmed(orderedItems));
+    };
+
+    const onAuthCancel = () => {
+        console.log('onAuthCancel');
+        setAuthPending(false);
+    };
+
+    let authPopup = null;
+    if (authPending) {
+        authPopup = <AuthPopup onSubmit={onAuthSubmit} onCancel={onAuthCancel} />;
     }
 
     return (
         <div>
             {checkoutItems}
             <button onClick={onSendClick}>Вiдправити замовлення</button>
+            {authPopup}
         </div>
     );
  }
