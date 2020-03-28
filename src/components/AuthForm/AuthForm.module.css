@@ -3,7 +3,8 @@
 }
 
 .AuthForm p {
-    margin: 0px;
+    margin: 0px 5px;
+    text-align: left;
 }
 
 .InputField {
@@ -11,7 +12,7 @@
 }
 
 .AuthForm input {
-    width: 300px;
+    width: 200px;
 }
 
 .InvalidInput {

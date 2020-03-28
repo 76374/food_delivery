@@ -12,5 +12,5 @@
     "top_bar_bt_order": "Замовлення",
     "top_bar_bt_checkout": "Оформити",
     "top_bar_bt_login": "Увiйти",
-    "top_bar_bt_logout": "Вийти (${0})"
+    "top_bar_bt_logout": "Вийти ({0})"
 }

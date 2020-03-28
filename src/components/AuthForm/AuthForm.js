@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './AuthForm.module.css';
 import locale from '../../data/locale';
 import localeKey from '../../data/localeKey';
+import Button from '../Button/Button';
 
 const AuthForm = props => {
     const [inputData, setInputData] = useState({
@@ -42,7 +43,7 @@ const AuthForm = props => {
         <div className={styles.AuthForm}>
             {getInputField(locale.get(localeKey.AUTH_INPUT_FIRST_NAME), onFirstNameChanged, inputData.firstNameValid)}
             {getInputField(locale.get(localeKey.AUTH_INPUT_LAST_NAME), onLastNameChanged, inputData.lastNameValid)}
-            <input type="button" value={locale.get(localeKey.AUTH_BT_SUBMIT)} onClick={onSubmit} />
+            <Button text={locale.get(localeKey.AUTH_BT_SUBMIT)} onClick={onSubmit}/>
         </div>
     );
 };

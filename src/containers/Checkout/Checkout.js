@@ -1,4 +1,4 @@
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CheckoutItem from '../../components/CheckoutItem/CheckoutItem';
 import { orderConfirmed } from '../../store/actions/order';
@@ -8,8 +8,9 @@ import AuthPopup from '../../components/Popups/AuthPopup/AuthPopup';
 import { authSubmited } from '../../store/actions/appState';
 import locale from '../../data/locale';
 import localeKey from '../../data/localeKey';
+import Button from '../../components/Button/Button';
 
- const Checkout = props => {
+const Checkout = props => {
     const menuData = useSelector(state => state.order.menuData);
     const orderedItems = useSelector(state => state.order.orderedItems);
     const orderSentSuccess = useSelector(state => state.order.orderSentSuccess);
@@ -21,7 +22,7 @@ import localeKey from '../../data/localeKey';
     const dispatch = useDispatch();
 
     if (confirming && orderSentSuccess) {
-        return <Redirect to={ORDER_SUCCESS}/>
+        return <Redirect to={ORDER_SUCCESS} />
     }
 
     if (!orderedItems || orderedItems.length <= 0) {
@@ -83,10 +84,10 @@ import localeKey from '../../data/localeKey';
     return (
         <div>
             {checkoutItems}
-            <button onClick={onSendClick}>{locale.get(localeKey.CHECKOUT_BT_SEND)}</button>
+            <Button onClick={onSendClick} text={locale.get(localeKey.CHECKOUT_BT_SEND)} />
             {authPopup}
         </div>
     );
- }
+}
 
- export default Checkout;
+export default Checkout;

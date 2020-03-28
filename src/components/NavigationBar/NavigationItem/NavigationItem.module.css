@@ -1,12 +1,15 @@
 .NavigationItem {
+    min-width: 100px;
     padding: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    color: white;
     text-decoration: none;
 }
-
-.NavigationItem a:hover,
-.NavigationItem a:active,
-.NavigationItem a.active {
-    border-bottom: 4px solid #000;
+.NavigationItem:hover {
+    background-color: #e08569;
+}
+.NavigationItemActive {
+    background-color: #ed9479;
 }

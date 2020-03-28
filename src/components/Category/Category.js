@@ -15,7 +15,7 @@ const Category = props => {
     });
     return (
         <div>
-            <p>{props.title}</p>
+            <h2>{props.title}</h2>
             <div className={styles.Meals}>
                 {items}
             </div>

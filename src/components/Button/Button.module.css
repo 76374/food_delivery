@@ -1,0 +1,18 @@
+.Button0 {
+    background-color: #ff7e42;
+    color: white;
+    border: none;
+    padding: 7px 15px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.Button1 {
+    background-color: white;
+    color: #ff7e42;
+    border: solid;
+    border-color: #ff7e42;
+    padding: 7px 15px;
+    margin: 5px;
+    border-radius: 5px;
+}
