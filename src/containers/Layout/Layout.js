@@ -7,13 +7,20 @@ import Loading from '../../components/Loading/Loading';
 import ErrorHandler from '../ErrorHandler/ErrorHandler';
 import Auth from '../Auth/Auth';
 import Logout from '../Logout/Logout';
-import { ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT } from '../../store/AppPaths';
+import { ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT } from '../../data/appPaths';
 import { useSelector } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router';
 
 const Layout = () => {
     const menuData = useSelector(state => state.order.menuData);
     const loading = useSelector(state => state.appState.loading);
+    const localeLoaded = useSelector(state => state.appState.localeLoaded);
+
+    if (!localeLoaded) {
+      return (
+        <Loading />
+      );
+    }
 
     return (<>
         <ErrorHandler />

@@ -1,4 +1,4 @@
-import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED, AUTH_SUBMITED, LOGOUT } from "../actionTypes";
+import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED, AUTH_SUBMITED, LOGOUT, LOCALE_READY } from "../actionTypes";
 
 export const processAdded = id => ({
     type: PROCESS_ADDED,
@@ -23,3 +23,7 @@ export const authSubmited = authData => ({
 export const logout = () => ({
     type: LOGOUT
 });
+
+export const localeReady = () => ({
+    type: LOCALE_READY
+})

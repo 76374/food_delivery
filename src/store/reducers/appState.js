@@ -1,7 +1,8 @@
-import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED, AUTH_SUBMITED, LOGOUT } from "../actionTypes";
+import { PROCESS_ADDED, PROCESS_REMOVED, ERROR_OCCURED, AUTH_SUBMITED, LOGOUT, LOCALE_READY } from "../actionTypes";
 import { combineObjects } from "../utils";
 
 const initialState = {
+    localeReady: false,
     loading: false,
     error: null,
     authData: null
@@ -26,6 +27,10 @@ const processRemoved = (state, id) => {
     return combineObjects(state, { loading: processes.length > 0 });
 }
 
+const localeLoaded = state => {
+    return combineObjects(state, { localeLoaded: true })
+}
+
 const errorOccured = (state, payload) => {
     return combineObjects(state, { error: payload });
 }
@@ -40,6 +45,8 @@ const logout = state => {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case LOCALE_READY:
+            return localeLoaded(state);
         case PROCESS_ADDED:
             return processAdded(state, action.payload);
         case PROCESS_REMOVED:

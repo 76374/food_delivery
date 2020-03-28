@@ -1,0 +1,16 @@
+{
+    "currency_format_uah": "{0} грн",
+    "items_count_format": "{0}  шт.",
+    "auth_input_first_name": "Iм'я",
+    "auth_input_last_name": "Прiзвище",
+    "auth_bt_submit": "Вiдправити",
+    "meal_card_bt_add": "додати",
+    "meal_card_bt_remove": "прибрати",
+    "checkout_message_no_orders": "Ви ще нiчого не замовили",
+    "checkout_bt_send": "Вiдправити замовлення",
+    "order_success_message": "Ваше замовлення вiдiсланно",
+    "top_bar_bt_order": "Замовлення",
+    "top_bar_bt_checkout": "Оформити",
+    "top_bar_bt_login": "Увiйти",
+    "top_bar_bt_logout": "Вийти (${0})"
+}

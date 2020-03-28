@@ -2,10 +2,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import CheckoutItem from '../../components/CheckoutItem/CheckoutItem';
 import { orderConfirmed } from '../../store/actions/order';
-import { ORDER_SUCCESS } from '../../store/AppPaths';
+import { ORDER_SUCCESS } from '../../data/appPaths';
 import { Redirect } from 'react-router';
 import AuthPopup from '../../components/Popups/AuthPopup/AuthPopup';
 import { authSubmited } from '../../store/actions/appState';
+import locale from '../../data/locale';
+import localeKey from '../../data/localeKey';
 
  const Checkout = props => {
     const menuData = useSelector(state => state.order.menuData);
@@ -24,7 +26,7 @@ import { authSubmited } from '../../store/actions/appState';
 
     if (!orderedItems || orderedItems.length <= 0) {
         return (
-            <h1>Ви ще нiчого не замовили</h1>
+            <h1>{locale.get(localeKey.CHECKOUT_MESSAGE_NO_ORDERS)}</h1>
         );
     }
 
@@ -81,7 +83,7 @@ import { authSubmited } from '../../store/actions/appState';
     return (
         <div>
             {checkoutItems}
-            <button onClick={onSendClick}>Вiдправити замовлення</button>
+            <button onClick={onSendClick}>{locale.get(localeKey.CHECKOUT_BT_SEND)}</button>
             {authPopup}
         </div>
     );

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import { initMenu } from './store/actions/order'
-import { authSubmited } from './store/actions/appState';
+import { authSubmited, localeReady } from './store/actions/appState';
 import Layout from './containers/Layout/Layout';
+import locale from './data/locale';
 
 
 function App() {
@@ -18,8 +19,11 @@ function App() {
     if (firstName && lastName) {
       dispatch(authSubmited({ firstName, lastName }))
     }
-
   }, [dispatch]);
+
+  locale.init(() => {
+    dispatch(localeReady());
+  });
 
   return (
     <BrowserRouter>

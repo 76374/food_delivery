@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './AuthForm.module.css';
+import locale from '../../data/locale';
+import localeKey from '../../data/localeKey';
 
 const AuthForm = props => {
     const [inputData, setInputData] = useState({
@@ -38,9 +40,9 @@ const AuthForm = props => {
     }
     return (
         <div className={styles.AuthForm}>
-            {getInputField(`Iм'я`, onFirstNameChanged, inputData.firstNameValid)}
-            {getInputField("Прiзвище", onLastNameChanged, inputData.lastNameValid)}
-            <input type="button" value="Вiдправити" onClick={onSubmit} />
+            {getInputField(locale.get(localeKey.AUTH_INPUT_FIRST_NAME), onFirstNameChanged, inputData.firstNameValid)}
+            {getInputField(locale.get(localeKey.AUTH_INPUT_LAST_NAME), onLastNameChanged, inputData.lastNameValid)}
+            <input type="button" value={locale.get(localeKey.AUTH_BT_SUBMIT)} onClick={onSubmit} />
         </div>
     );
 };
