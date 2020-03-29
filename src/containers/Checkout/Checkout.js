@@ -9,6 +9,8 @@ import { authSubmited } from '../../store/actions/appState';
 import locale from '../../data/locale';
 import localeKey from '../../data/localeKey';
 import Button from '../../components/Button/Button';
+import { orderedItemsCountChanged } from '../../store/actions/order';
+import styles from './Checkout.module.css';
 
 const Checkout = props => {
     const menuData = useSelector(state => state.order.menuData);
@@ -43,6 +45,11 @@ const Checkout = props => {
                 title={item.title}
                 price={item.price}
                 count={orderedItem.count}
+                onRemoveClick={() => {
+                    dispatch(
+                        orderedItemsCountChanged(orderedItem.categoryId, orderedItem.itemId, orderedItem.count - 1)
+                    );
+                }}
             />
         );
         totalPrice += item.price * orderedItem.count;
@@ -81,13 +88,13 @@ const Checkout = props => {
         authPopup = <AuthPopup onSubmit={onAuthSubmit} onCancel={onAuthCancel} />;
     }
 
-    return (
-        <div>
+    return (<>
+        <div className={styles.Checkout}>
             {checkoutItems}
             <Button onClick={onSendClick} text={locale.get(localeKey.CHECKOUT_BT_SEND)} />
-            {authPopup}
         </div>
-    );
+        {authPopup}
+    </>);
 }
 
 export default Checkout;

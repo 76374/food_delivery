@@ -3,15 +3,15 @@
     min-height: 400px;
     width: 100%;
     top: 0px;
+    left: 0px;
     position: absolute;
     background-color: #fff6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .Popup {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 300px;
+    margin: 10% auto;
     padding: 20px;
 }
