@@ -22,6 +22,7 @@ export const initMenu = () => {
         dispatch(processAdded(PROCESS_ID));
         axios.get(MENU_PATH, { cache: false })
             .then(response => {
+                console.log(response.data);
                 dispatch(menuReceived(response.data));
             })
             .catch(error => {
@@ -44,12 +45,13 @@ export const orderConfirmed = (orderData) => {
         dispatch(processAdded(PROCESS_ID));
         axios.post(ORDERS_PATH, getOrederRequest(orderData))
             .then(response => {
+                console.log(response.data);
                 dispatch(orderSentSuccess());
             })
             .catch(error => {
                 dispatch(errorOccured(error.message));
             })
-            .then(response => {
+            .then(() => {
                 dispatch(processRemoved(PROCESS_ID));
             });
     }

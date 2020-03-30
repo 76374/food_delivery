@@ -12,7 +12,7 @@ import Button from '../../components/Button/Button';
 import { orderedItemsCountChanged } from '../../store/actions/order';
 import styles from './Checkout.module.css';
 
-const Checkout = props => {
+const Checkout = () => {
     const menuData = useSelector(state => state.order.menuData);
     const orderedItems = useSelector(state => state.order.orderedItems);
     const orderSentSuccess = useSelector(state => state.order.orderSentSuccess);
@@ -79,7 +79,6 @@ const Checkout = props => {
     };
 
     const onAuthCancel = () => {
-        console.log('onAuthCancel');
         setAuthPending(false);
     };
 

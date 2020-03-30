@@ -10,12 +10,10 @@ const objectToArray = obj => {
 };
 
 export const getMenuData = serverData => {
-    console.log(serverData);
     const result = objectToArray(serverData);
     result.forEach(category => {
         category.items = objectToArray(category.items);
     });
-    console.log(result);
     return {
         menuData: result
     };
@@ -30,5 +28,6 @@ export const getOrederRequest = orderedItems => {
         }
         result[catId][orderedItem.itemId] = orderedItem.count;
     });
+    console.log('order', orderedItems, result);
     return result;
 }
