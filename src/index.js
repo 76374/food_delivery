@@ -1,18 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 
 import './index.css';
-import App from './App';
+import App from './containers/App/App';
 import * as serviceWorker from './serviceWorker';
-import order from './store/reducers/order';
-import appState from './store/reducers/appState';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const reducers = combineReducers({ order, appState });
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
+import store from './store/store';
 
 const app = (
     <Provider store={store}>
