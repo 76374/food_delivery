@@ -1,6 +1,5 @@
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { mount } from 'enzyme';
 import { createStore, applyMiddleware } from 'redux';
 import reducer from '../../store/reducers';
 import { Provider } from 'react-redux';
@@ -9,47 +8,15 @@ import CheckoutItem from '../../components/CheckoutItem/CheckoutItem';
 import Button from '../../components/Button/Button';
 import AuthPopup from '../../components/Popups/AuthPopup/AuthPopup';
 import thunk from 'redux-thunk';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { getMenuData, getOrderedItems, getOrderArgs, addAuth } from '../mockState';
 
 describe('<Checkout/>', () => {
-    const getState = () => {
-        const orderedItems = [
-            {
-                categoryId: "category",
-                itemId: "item",
-                count: 1
-            }
-        ];
-        const menuData = [
-            {
-                id: "category",
-                title: "catTitle",
-                items: [
-                    {
-                        id: "item",
-                        title: "itemTitle",
-                        price: 1,
-                        dayAvailable: 1
-                    }
-                ]
-            }
-        ];
-        return { 
-            order: { orderedItems, menuData }
-        };
-    }
-    const getStateWithAuth = () => {
-        return {
-            ...getState(),
-            appState: {
-                authData: {
-                    firstName: 'first name',
-                    lastName: 'last name'
-                }
-            }
+    const getState = () => ({
+        order: { 
+            menuData: getMenuData(1), 
+            orderedItems: getOrderedItems(getOrderArgs(0, 0, 1))
         }
-    }
+    });
     const getStore = state => (
         createStore(reducer, state, applyMiddleware(thunk))
     );
@@ -71,14 +38,17 @@ describe('<Checkout/>', () => {
     });
 
     it('shouldn\'t show auth popup', () => {
-        const mockStore = getStore(getStateWithAuth());
+        const state = getState();
+        addAuth(state);
+        const mockStore = getStore(state);
         const wrapper = getWrapper(mockStore);
         wrapper.find(Button).last().simulate('click');
         expect(wrapper.exists(AuthPopup)).toBe(false);
     });
 
     it('should dispatch an action after submit', () => {
-        const state = getStateWithAuth();
+        const state = getState();
+        addAuth(state);
         const mockStore = getStore(state);
         mockStore.dispatch = jest.fn();
         const wrapper = getWrapper(mockStore);
