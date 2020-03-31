@@ -2,4 +2,6 @@ import { combineReducers } from "redux";
 import order from './order';
 import appState from './appState';
 
-export default combineReducers({ order, appState });
+const reducer = combineReducers({ order, appState });
+
+ export default reducer;
