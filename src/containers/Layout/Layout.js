@@ -1,5 +1,7 @@
 import React from 'react';
-import Order from '../Order/Order'
+import { useSelector } from 'react-redux';
+import { Switch, Route, Redirect } from 'react-router';
+import Order from '../Order/Order';
 import TopBar from '../TopBar/TopBar';
 import Checkout from '../Checkout/Checkout';
 import OrderSuccess from '../OrderSuccess/OrderSuccess';
@@ -7,15 +9,15 @@ import Loading from '../../components/Loading/Loading';
 import ErrorHandler from '../ErrorHandler/ErrorHandler';
 import Auth from '../Auth/Auth';
 import Logout from '../Logout/Logout';
-import { ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT } from '../../data/appPaths';
-import { useSelector } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router';
-import styles from './Layout.module.css'
+import {
+  ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT,
+} from '../../data/appPaths';
+import styles from './Layout.module.css';
 
 const Layout = () => {
-  const menuData = useSelector(state => state.order.menuData);
-  const loading = useSelector(state => state.appState.loading);
-  const localeLoaded = useSelector(state => state.appState.localeLoaded);
+  const menuData = useSelector((state) => state.order.menuData);
+  const loading = useSelector((state) => state.appState.loading);
+  const localeLoaded = useSelector((state) => state.appState.localeLoaded);
 
   if (!localeLoaded) {
     return (
@@ -38,6 +40,6 @@ const Layout = () => {
       </Switch>
     </div>
   );
-}
+};
 
 export default Layout;

@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Layout/>
+        <Layout />
       </div>
     </BrowserRouter>
   );
