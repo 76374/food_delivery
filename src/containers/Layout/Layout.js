@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router';
 import Order from '../Order/Order';
@@ -9,20 +10,19 @@ import Loading from '../../components/Loading/Loading';
 import ErrorHandler from '../ErrorHandler/ErrorHandler';
 import Auth from '../Auth/Auth';
 import Logout from '../Logout/Logout';
-import {
-  ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT,
-} from '../../data/appPaths';
+import { ORDER, CHECKOUT, ORDER_SUCCESS, AUTH, LOGOUT } from '../../data/appPaths';
 import styles from './Layout.module.css';
+import useStore from '../../stores/useStore';
 
-const Layout = () => {
+const Layout = observer(() => {
   const menuData = useSelector((state) => state.order.menuData);
   const loading = useSelector((state) => state.appState.loading);
   const localeLoaded = useSelector((state) => state.appState.localeLoaded);
 
+  const { order } = useStore();
+
   if (!localeLoaded) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
@@ -30,6 +30,7 @@ const Layout = () => {
       <ErrorHandler />
       {loading ? <Loading /> : null}
       <TopBar />
+      {order.menuData}
       <Switch>
         <Route path={ORDER} exact component={menuData ? Order : null} />
         <Route path={CHECKOUT} exact component={Checkout} />
@@ -40,6 +41,6 @@ const Layout = () => {
       </Switch>
     </div>
   );
-};
+});
 
 export default Layout;

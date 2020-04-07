@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { MENU_RECEIVED, ORDERED_ITEMS_COUNT_CHANGED, ORDER_SENT_SUCCESS } from '../actionTypes';
-import { getOrederRequest } from '../utils/data';
+import { getOrederRequest, getMenuData } from '../utils/data';
 import { processAdded, processRemoved, errorOccured } from './appState';
+import useStore from '../../stores/useStore';
 
 const SERVER_PATH = 'https://food-delivery-14fcc.firebaseio.com';
 const MENU_PATH = `${SERVER_PATH}/menu.json`;
@@ -21,6 +22,10 @@ export const initMenu = () => (dispatch) => {
   dispatch(processAdded(PROCESS_ID));
   axios.get(MENU_PATH, { cache: false })
     .then((response) => {
+
+      const { order } = useStore();
+      order.setMenuData(getMenuData(response.data));
+
       dispatch(menuReceived(response.data));
     })
     .catch((error) => {
