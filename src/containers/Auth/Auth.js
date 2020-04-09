@@ -1,16 +1,14 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import styles from './Auth.module.css';
 import AuthForm from '../../components/AuthForm/AuthForm';
-import { authSubmited } from '../../store/actions/appState';
+import useLocalData from '../../hooks/useLocalData';
 
 const Auth = (props) => {
-  const dispatch = useDispatch();
+  const localData = useLocalData();
 
   const onSubmit = (authData) => {
-    localStorage.setItem('firstName', authData.firstName);
-    localStorage.setItem('lastName', authData.lastName);
-    dispatch(authSubmited(authData));
+    localData.setUserData(authData.firstName, authData.lastName);
+
     props.history.goBack();
   };
 

@@ -1,41 +1,49 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { Redirect } from 'react-router';
 import CheckoutItem from '../../components/CheckoutItem/CheckoutItem';
-import { orderConfirmed, orderedItemsCountChanged } from '../../store/actions/order';
 import { ORDER_SUCCESS } from '../../data/appPaths';
 import AuthPopup from '../../components/Popups/AuthPopup/AuthPopup';
-import { authSubmited } from '../../store/actions/appState';
 import locale from '../../data/locale';
 import localeKey from '../../data/localeKey';
 import Button from '../../components/Button/Button';
 
 import styles from './Checkout.module.css';
+import { useLocalStore, observer } from 'mobx-react';
+import useStore from '../../hooks/useStore';
+import useSendOrder from '../../hooks/useSendOrder';
+import useLocalData from '../../hooks/useLocalData';
 
 const Checkout = () => {
-  const menuData = useSelector((state) => state.order.menuData);
-  const orderedItems = useSelector((state) => state.order.orderedItems);
-  const orderSentSuccess = useSelector((state) => state.order.orderSentSuccess);
-  const authorized = useSelector((state) => Boolean(state.appState.authData));
+  const { order, appState } = useStore();
+  const sendOrder = useSendOrder();
+  const localData = useLocalData();
 
-  const [authPending, setAuthPending] = useState(false);
-  const [confirming, setConfirming] = useState(false);
+  const localStore = useLocalStore(() => ({
+    confirming: false,
+    authPending: false
+  }));
 
-  const dispatch = useDispatch();
+  const onRemoveClick = (e, orderedItem) => {
+    order.setOrderedItem(
+      orderedItem.categoryId,
+      orderedItem.itemId,
+      orderedItem.count - 1
+    );
+  };
 
-  if (confirming && orderSentSuccess) {
+  if (localStore.confirming && order.orderSentSuccess) {
     return <Redirect to={ORDER_SUCCESS} />;
   }
 
-  if (!orderedItems || orderedItems.length <= 0) {
+  if (!order.orderedItems || order.orderedItems.length <= 0) {
     return <h1>{locale.get(localeKey.CHECKOUT_MESSAGE_NO_ORDERS)}</h1>;
   }
 
   const checkoutItems = [];
   let totalPrice = 0;
 
-  orderedItems.forEach((orderedItem) => {
-    const ctgr = menuData.find((c) => c.id === orderedItem.categoryId);
+  order.orderedItems.forEach((orderedItem) => {
+    const ctgr = order.menuData.find((c) => c.id === orderedItem.categoryId);
     const item = ctgr.items.find((m) => m.id === orderedItem.itemId);
     checkoutItems.push(
       <CheckoutItem
@@ -43,15 +51,7 @@ const Checkout = () => {
         title={item.title}
         price={item.price}
         count={orderedItem.count}
-        onRemoveClick={() => {
-          dispatch(
-            orderedItemsCountChanged(
-              orderedItem.categoryId,
-              orderedItem.itemId,
-              orderedItem.count - 1
-            )
-          );
-        }}
+        onRemoveClick={e => onRemoveClick(e, orderedItem)}
       />
     );
     totalPrice += item.price * orderedItem.count;
@@ -61,27 +61,28 @@ const Checkout = () => {
   );
 
   const onSendClick = () => {
-    if (authorized) {
-      setConfirming(true);
-      dispatch(orderConfirmed(orderedItems));
+    if (appState.authData) {
+      localStore.confirming = true;
+      sendOrder(order.orderedItems);
     } else {
-      setAuthPending(true);
+      localStore.authPending = true;
     }
   };
 
   const onAuthSubmit = (authData) => {
-    setAuthPending(false);
-    setConfirming(true);
-    dispatch(authSubmited(authData));
-    dispatch(orderConfirmed(orderedItems));
+    localStore.authPending = false;
+    localStore.confirming = true;
+
+    localData.setUserData(authData.firstName, authData.lastName);
+    sendOrder(order.orderedItems);
   };
 
   const onAuthCancel = () => {
-    setAuthPending(false);
+    localStore.authPending = false;
   };
 
   let authPopup = null;
-  if (authPending) {
+  if (localStore.authPending) {
     authPopup = <AuthPopup onSubmit={onAuthSubmit} onCancel={onAuthCancel} />;
   }
 
@@ -96,4 +97,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default observer(Checkout);

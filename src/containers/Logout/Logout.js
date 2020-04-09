@@ -1,16 +1,13 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/actions/appState';
+import useLocalData from '../../hooks/useLocalData';
 
 const Logout = (props) => {
   const { history } = props;
-  const dispatch = useDispatch();
+  const localData = useLocalData();
   useEffect(() => {
-    localStorage.removeItem('firstName');
-    localStorage.removeItem('lastName');
-    dispatch(logout());
-    props.history.goBack();
-  }, [dispatch, history]);
+    localData.clearUserData();
+    history.goBack();
+  }, [localData, history]);
 
   return null;
 };

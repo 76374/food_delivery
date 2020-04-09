@@ -1,23 +1,23 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import ErrorPopup from '../../components/Popups/ErrorPopup/ErrorPopup';
-import { errorOccured } from '../../store/actions/appState';
+import useStore from '../../hooks/useStore';
 
 const ErrorHandler = () => {
-  const error = useSelector((state) => state.appState.error);
-  const dispatch = useDispatch();
+  const { appState } = useStore();
 
-  if (!error) {
+  if (!appState.error) {
     return null;
   }
 
+  console.log(appState.error);
+
   const onOkClicked = () => {
-    dispatch(errorOccured(null));
+    appState.error = null;
   };
 
   return (
     <ErrorPopup
-      message={error.message}
+      message={appState.error.message}
       onOkClicked={onOkClicked}
     />
   );

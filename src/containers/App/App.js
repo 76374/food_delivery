@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Layout from '../Layout/Layout';
-import initApp from './init';
-
+import locale from '../../data/locale';
+import useStore from '../../hooks/useStore';
+import useInitMenu from '../../hooks/useInitMenu';
+import useLocalData from '../../hooks/useLocalData';
 
 function App() {
-  const dispatch = useDispatch();
+  const { appState } = useStore();
+  const initMenu = useInitMenu();
+  const localData = useLocalData();
 
   useEffect(() => {
-    initApp(dispatch);
-  }, [dispatch]);
+    locale.init(() => {
+      appState.setLocaleReady();
+    });
+
+    localData.checkUserData();
+
+    initMenu();
+  }, [appState, localData, initMenu]);
 
   return (
     <BrowserRouter>
