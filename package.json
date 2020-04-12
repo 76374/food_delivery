@@ -50,6 +50,7 @@
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "customize-cra": "^0.9.1",
     "prettier": "2.0.4",
-    "react-app-rewired": "^2.1.5"
+    "react-app-rewired": "^2.1.5",
+    "typescript-plugin-css-modules": "^2.2.0"
   }
 }
