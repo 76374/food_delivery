@@ -1,4 +1,4 @@
-import { getMenuData, getOrederRequest } from '../../utils/data';
+import { getMenuData, getOrederRequest } from '../../utils/dataConvert';
 
 describe('data utils', () => {
   it('should convert server initial data', () => {
