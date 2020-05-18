@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import axios from 'axios';
 import useStore from './useStore';
-import { getOrederRequest } from '../utils/dataConvert';
+import { getOrderRequest } from '../utils/dataConvert';
 import BackendPath from '../const/BackendPath';
 
 const useSendOrder = () => {
@@ -12,7 +12,7 @@ const useSendOrder = () => {
       const PROCESS_ID = 'order';
       appState.addProcess(PROCESS_ID);
       axios
-        .post(BackendPath.ORDERS_PATH, getOrederRequest(orderData))
+        .post(BackendPath.ORDERS_PATH, getOrderRequest(orderData))
         .then((/* response */) => {
           order.setOrderSentSuccess(true);
           order.clearOrderItems();

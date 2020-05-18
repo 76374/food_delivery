@@ -32,7 +32,7 @@ const Checkout = () => {
     return <Redirect to={AppPath.ORDER_SUCCESS} />;
   }
 
-  if (order.containsOrderedItems) {
+  if (!order.containsOrderedItems) {
     return <h1>{Locale.get(LocaleKey.CHECKOUT_MESSAGE_NO_ORDERS)}</h1>;
   }
 

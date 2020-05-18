@@ -1,19 +1,16 @@
 interface MenuResponse {
-    [propName: string]: MenuCategory;
+    menu: [MenuCategory];
 }
 
 interface MenuCategory {
     title: string;
-    items: CategoryItems;
-}
-
-interface CategoryItems {
-    [propName: string]: MenuItem;
+    items: [MenuItem];
 }
 
 interface MenuItem {
+    id: string;
     title: string;
     price: number;
 }
 
-export type { MenuResponse, MenuCategory, CategoryItems, MenuItem};
+export type { MenuResponse, MenuCategory, MenuItem};

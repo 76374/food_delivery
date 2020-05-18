@@ -1,4 +1,4 @@
-import { getMenuData, getOrederRequest } from '../../utils/dataConvert';
+import { getMenuData, getOrderRequest } from '../../utils/dataConvert';
 
 describe('data utils', () => {
   it('should convert server initial data', () => {
@@ -45,6 +45,6 @@ describe('data utils', () => {
         item: 1,
       },
     };
-    expect(getOrederRequest(orderData)).toEqual(expectedRequest);
+    expect(getOrderRequest(orderData)).toEqual(expectedRequest);
   });
 });
