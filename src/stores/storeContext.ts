@@ -1,13 +1,10 @@
 import React from 'react';
 import OrderStore from './Order';
 import AppState from './AppState';
-
-interface StoreContext {
-  order: OrderStore;
-  appState: AppState;
-}
+import User from './User';
 
 export default React.createContext({
   order: new OrderStore(),
-  appState: new AppState()
+  appState: new AppState(),
+  user: new User()
 });

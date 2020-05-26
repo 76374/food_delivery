@@ -1,43 +1,45 @@
 import { useCallback } from 'react';
 import useStore from './useStore';
 
-const FIRST_NAME_KEY: string = 'firstName';
-const LAST_NAME_KEY: string = 'lastName';
-
 interface LocalDataActions {
-  checkUserData(): void;
-  setUserData(firstName: string, lastName: string): void;
+  readUserData(): void;
+  setUserData(firstName: string, lastName: string, email: string, token: string): void;
   clearUserData(): void;
 }
 
-const useLocalData = () => {
-  const { appState } = useStore();
+const DATA_KEY: string = 'firstName';
 
-  const checkUserData = useCallback(() => {
-    const firstName = localStorage.getItem(FIRST_NAME_KEY);
-    const lastName = localStorage.getItem(LAST_NAME_KEY);
-    if (firstName && lastName) {
-      appState.setAuthData(firstName, lastName);
+const useLocalData = (): LocalDataActions => {
+  const { user } = useStore();
+
+  const readUserData = useCallback(() => {
+    const dataStr = localStorage.getItem(DATA_KEY);
+    if (dataStr) {
+      const data = JSON.parse(dataStr);
+      user.setUserDetails(data.firstName, data.lastName, data.email);
+      user.setToken(data.token);
     }
-  }, [appState]);
+  }, [user]);
 
-  const setUserData = useCallback((firstName: string, lastName: string) => {
-    localStorage.setItem(FIRST_NAME_KEY, firstName);
-    localStorage.setItem(LAST_NAME_KEY, lastName);
-    appState.setAuthData(firstName, lastName);
-  }, [appState]);
+  const setUserData = useCallback(
+    (firstName: string, lastName: string, email: string, token: string) => {
+      localStorage.setItem(DATA_KEY, JSON.stringify({ firstName, lastName, email, token }));
+      user.setUserDetails(firstName, lastName, email);
+      user.setToken(token);
+    },
+    [user]
+  );
 
   const clearUserData = useCallback(() => {
-    localStorage.removeItem(FIRST_NAME_KEY);
-    localStorage.removeItem(LAST_NAME_KEY);
-    appState.clearAuthData();
-  }, [appState]);
+    localStorage.removeItem(DATA_KEY);
+    user.signOut();
+  }, [user]);
 
   return {
-    checkUserData,
+    readUserData,
     setUserData,
-    clearUserData
-  } as LocalDataActions;
+    clearUserData,
+  };
 };
 
 export default useLocalData;

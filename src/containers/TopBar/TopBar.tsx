@@ -10,14 +10,21 @@ import { observer } from 'mobx-react';
 const getItemData = (link: string, text: string) => ({ link, text });
 
 const TopBar = () => {
-  const { appState } = useStore();
+  const { user } = useStore();
   const navigationItems: NavigationItemData[] = [
     getItemData(AppPath.ORDER, Locale.get(LocaleKey.TOP_BAR_BT_ORDER)),
     getItemData(AppPath.CHECKOUT, Locale.get(LocaleKey.TOP_BAR_BT_CHECKOUT)),
-    appState.authData
-      ? getItemData(AppPath.LOGOUT, Locale.get(LocaleKey.TOP_BAR_BT_LOGOUT, appState.authData.firstName))
-      : getItemData(AppPath.AUTH, Locale.get(LocaleKey.TOP_BAR_BT_LOGIN))
   ];
+  if (user.isSignedIn) {
+    navigationItems.push(
+      getItemData(AppPath.LOGOUT, Locale.get(LocaleKey.TOP_BAR_BT_LOGOUT, String(user.firstName)))
+    );
+  } else {
+    navigationItems.push(
+      getItemData(AppPath.SIGN_IN, Locale.get(LocaleKey.TOP_BAR_BT_SIGN_IN)),
+      getItemData(AppPath.SIGN_UP, Locale.get(LocaleKey.TOP_BAR_BT_SIGN_UP))
+    );
+  }
 
   return (
     <div className={styles.TopBar}>

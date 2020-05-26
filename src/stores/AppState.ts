@@ -1,5 +1,4 @@
 import { observable, action } from 'mobx';
-import AuthData from '../dto/AuthData';
 
 class AppState {
   @observable
@@ -11,11 +10,7 @@ class AppState {
   @observable
   private _error: any | null = null;
 
-  @observable
-  private _authData: AuthData | null = null;
-
   processes: string[] = [];
-
 
   get loading(): boolean {
     return this._loading;
@@ -60,21 +55,7 @@ class AppState {
 
   @action
   setLocaleReady() {
-      this._localeReady = true;
-  }
-
-  get authData(): AuthData | null {
-    return this._authData;
-  }
-
-  @action
-  setAuthData(firstName: string, lastName: string) {
-      this._authData = { firstName, lastName };
-  }
-
-  @action
-  clearAuthData() {
-      this._authData = null;
+    this._localeReady = true;
   }
 }
 

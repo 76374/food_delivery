@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { observer } from 'mobx-react';
 import ErrorPopup from '../../components/Popups/ErrorPopup/ErrorPopup';
 import useStore from '../../hooks/useStore';
 
@@ -21,4 +22,4 @@ const ErrorHandler = () => {
   );
 };
 
-export default ErrorHandler;
+export default observer(ErrorHandler);

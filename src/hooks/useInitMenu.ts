@@ -1,47 +1,43 @@
 import useStore from './useStore';
-import axios from 'axios';
 import { useCallback } from 'react';
-import BackendPath from '../const/BackendPath';
-import { getMenuData } from '../utils/dataConvert';
+import { MenuResponse } from '../dto/ServerResponse';
+import { CategoryItem } from '../dto/MenuData';
+import useApiCall from './apiCall';
 
-const query = {
-  query: `
-    query {
-        menu {
+const query = `
+  query {
+      menu {
+      title
+      items {
+        id
         title
-        items {
-          id
-          title
-          price
-        }
+        price
       }
     }
-  `,
+  }
+`;
+
+export const getMenuData = (serverData: MenuResponse) => {
+  const result: CategoryItem[] = serverData.menu.map((cat) => ({
+    id: cat.title,
+    title: cat.title,
+    items: [...cat.items],
+  }));
+  return result;
 };
 
 const useInitMenu = () => {
-  const PROCESS_ID: string = 'init_menu';
-  const { appState, order } = useStore();
+  const { order } = useStore();
+  const apiCall = useApiCall();
 
   return useCallback(() => {
-    appState.addProcess(PROCESS_ID);
-
-    axios
-      .post(BackendPath.MENU_PATH, query)
-      .then((response) => {
-        if (response.data.errors && response.data.errors.length) {
-          appState.setError(response.data.errors[0].message);
-        } else {
-          order.setMenuData(getMenuData(response.data.data))
-        }
-      })
-      .catch((error) => {
-        appState.setError(error.message);
-      })
-      .then(() => {
-        appState.removeProcess(PROCESS_ID);
-      });
-  }, [appState, order]);
+    const requestPayload = {
+      query,
+    };
+    apiCall(requestPayload, (data) => {
+      order.setMenuData(getMenuData(data));
+    });
+  }, [order, apiCall]);
 };
 
 export default useInitMenu;
