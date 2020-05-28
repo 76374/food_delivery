@@ -29,10 +29,10 @@ const useSignIn = () => {
           pwd: signInData.pwd,
         },
       };
-      apiCall(requestPayload, (data) => {
-        const userData = data.signUp.user;
+      apiCall(requestPayload, false, (data) => {
+        const userData = data.signIn.user;
         user.setUserDetails(userData.firstName, userData.lastName, userData.email);
-        user.setToken(data.signUp.token);
+        user.setToken(data.signIn.token);
 
         if (successCallback) {
           successCallback();

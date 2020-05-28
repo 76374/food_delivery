@@ -16,12 +16,15 @@ const useSendOrder = () => {
   const apiCall = useApiCall();
 
   return useCallback(
-    (orderItems: OrderedItem[], onSuccess: (() => void) | null = null) => {
+    (onSuccess: (() => void) | null = null) => {
+      const orderedItems = order.orderedItems;
       const requestPayload = {
         query,
-        items: orderItems.map((i: OrderedItem) => ({ itemId: i.itemId, itemsCount: i.count })),
+        input: {
+          items: orderedItems.map((i: OrderedItem) => ({ itemId: i.itemId, itemsCount: i.count })),
+        },
       };
-      apiCall(requestPayload, (data) => {
+      apiCall(requestPayload, true, (data) => {
         order.setOrderSentSuccess(true);
         order.clearOrderItems();
         if (onSuccess) {

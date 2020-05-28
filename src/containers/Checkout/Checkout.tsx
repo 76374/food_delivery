@@ -23,7 +23,7 @@ const Checkout = (props: RouteComponentProps) => {
 
   const onSendClick = () => {
     if (user.isSignedIn) {
-      sendOrder(order.orderedItems, () => {
+      sendOrder(() => {
         props.history.push(AppPath.ORDER_SUCCESS);
       });
     } else {

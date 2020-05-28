@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import Axios, { AxiosRequestConfig } from 'axios';
 import BackendPath from '../const/BackendPath';
 import useStore from './useStore';
 import { useCallback } from 'react';
@@ -9,6 +9,7 @@ let id = 0;
 const apiCall = (
   requestPayload: RequestPayload,
   appState: AppState,
+  token: string | null,
   successCallback: SuccessCallback
 ) => {
   const processId = 'api call ' + ++id;
@@ -22,9 +23,16 @@ const apiCall = (
     };
   }
 
+  let config: AxiosRequestConfig = {};
+  if (token) {
+    config = { 
+      headers: { Authorization: 'Bearer ' + token } 
+    };
+  }
+
   appState.addProcess(processId);
 
-  Axios.post(BackendPath.API_PATH, requestData)
+  Axios.post(BackendPath.API_PATH, requestData, config)
     .then((response) => {
       const errors = response.data.errors;
       if (errors && errors.length) {
@@ -42,13 +50,14 @@ const apiCall = (
 };
 
 const useApiCall = () => {
-  const { appState } = useStore();
+  const { appState, user } = useStore();
 
   return useCallback(
-    (requestPayload: RequestPayload, successCallback: SuccessCallback) => {
-      apiCall(requestPayload, appState, successCallback);
+    (requestPayload: RequestPayload, sendToken, successCallback: SuccessCallback) => {
+      const token: string | null = sendToken ? user.token : null;
+      apiCall(requestPayload, appState, token, successCallback);
     },
-    [appState]
+    [appState, user]
   );
 };
 

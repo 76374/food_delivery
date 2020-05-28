@@ -60,6 +60,7 @@ const SignInForm = (props: SignInProps) => {
         label={Locale.get(LocaleKey.AUTH_INPUT_PWD)}
         onChange={onPwdChanged}
         errorMessage={getLocale(getAuthErrorKey(localStore.pwdError))}
+        isPassword
       />
       <Button text={Locale.get(LocaleKey.AUTH_BT_SUBMIT)} onClick={onSubmit} />
     </div>

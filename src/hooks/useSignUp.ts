@@ -31,7 +31,7 @@ const useSignUp = () => {
           pwd: signUpData.pwd,
         },
       };
-      apiCall(requestPayload, (data) => {
+      apiCall(requestPayload, false, (data) => {
         const userData = data.signUp.user;
         user.setUserDetails(userData.firstName, userData.lastName, userData.email);
         user.setToken(data.signUp.token);

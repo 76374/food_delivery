@@ -34,7 +34,7 @@ const useInitMenu = () => {
     const requestPayload = {
       query,
     };
-    apiCall(requestPayload, (data) => {
+    apiCall(requestPayload, false, (data) => {
       order.setMenuData(getMenuData(data));
     });
   }, [order, apiCall]);
