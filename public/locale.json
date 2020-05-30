@@ -4,7 +4,8 @@
 
     "auth_input_first_name": "Iм'я",
     "auth_input_last_name": "Прiзвище",
-    "auth_bt_submit": "Вiдправити",
+    "auth_bt_sign_in": "Увійти",
+    "auth_bt_sign_up": "Вiдправити",
     "auth_input_email": "Пошта",
     "auth_input_pwd": "Пароль",
     "auth_input_invalid_email": "Не буває такої пошти",
@@ -25,5 +26,9 @@
     "top_bar_bt_checkout": "Оформити",
     "top_bar_bt_sign_in": "Увійти",
     "top_bar_bt_sign_up": "Зареєструватися",
-    "top_bar_bt_logout": "Вийти ({0})"
+    "top_bar_bt_logout": "Вийти ({0})",
+
+    "server_error": "помилка на сервері",
+    "network_error": "немає зв'язку",
+    "authorization_failed": "Шось не підходе"
 }

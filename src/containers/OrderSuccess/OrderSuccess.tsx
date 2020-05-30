@@ -1,5 +1,5 @@
 import React from 'react';
-import Locale from '../../utils/Locale';
+import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 
 const OrderSuccess = () => (

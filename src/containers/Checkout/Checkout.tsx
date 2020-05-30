@@ -2,19 +2,17 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import CheckoutItem from '../../components/CheckoutItem/CheckoutItem';
 import AppPath from '../../const/AppPath';
-import Locale from '../../utils/Locale';
+import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 import Button from '../../components/Button/Button';
 import styles from './Checkout.module.css';
 import { observer } from 'mobx-react';
 import useStore from '../../hooks/useStore';
-import useSendOrder from '../../hooks/useSendOrder';
 import OrderedItem from '../../dto/OrderedItem';
+import sendOrder from '../../service/network/sendOrder';
 
 const Checkout = (props: RouteComponentProps) => {
-  const { order, user } = useStore();
-
-  const sendOrder = useSendOrder();
+  const { order, user, appState } = useStore();
 
   // TODO: use callbacks
   const onRemoveClick = (orderedItem: OrderedItem) => {
@@ -23,9 +21,13 @@ const Checkout = (props: RouteComponentProps) => {
 
   const onSendClick = () => {
     if (user.isSignedIn) {
-      sendOrder(() => {
-        props.history.push(AppPath.ORDER_SUCCESS);
-      });
+      sendOrder(order.orderedItems, user.token)
+        .then((response) => {
+          props.history.push(AppPath.ORDER_SUCCESS);
+        })
+        .catch((err) => {
+          appState.setError(err);
+        });
     } else {
       props.history.push(AppPath.SIGN_IN);
     }

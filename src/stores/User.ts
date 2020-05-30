@@ -2,18 +2,18 @@ import { observable, action } from 'mobx';
 
 class User {
   @observable
-  private _token: string | null = null;
+  private _token: string = '';
 
   @observable
-  private _firstName: string | null = null;
+  private _firstName: string = '';
 
   @observable
-  private _lastName: string | null = null;
+  private _lastName: string = '';
 
   @observable
-  private _email: string | null = null;
+  private _email: string = '';
 
-  get token(): string | null {
+  get token(): string {
     return this._token;
   }
 
@@ -26,15 +26,15 @@ class User {
     this._token = value;
   }
 
-  get firstName(): string | null {
+  get firstName(): string {
     return this._firstName;
   }
 
-  get lastName(): string | null {
+  get lastName(): string {
     return this._lastName;
   }
 
-  get email(): string | null {
+  get email(): string {
     return this._email;
   }
 
@@ -47,10 +47,10 @@ class User {
 
   @action
   signOut() {
-    this._token = null;
-    this._firstName = null;
-    this._lastName = null;
-    this._email = null;
+    this._token = '';
+    this._firstName = '';
+    this._lastName = '';
+    this._email = '';
   }
 }
 

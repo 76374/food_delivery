@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './AuthForm.module.css';
-import Locale from '../../utils/Locale';
+import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 import Button from '../Button/Button';
 import { useLocalStore, observer } from 'mobx-react';
@@ -102,7 +102,7 @@ const SignUpForm = (props: SignUpProps) => {
         errorMessage={getLocale(getAuthErrorKey(localStore.pwdError))}
         isPassword
       />
-      <Button text={Locale.get(LocaleKey.AUTH_BT_SUBMIT)} onClick={onSubmit} />
+      <Button text={Locale.get(LocaleKey.AUTH_BT_SIGN_UP)} onClick={onSubmit} />
     </div>
   );
 };

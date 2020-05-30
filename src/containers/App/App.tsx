@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Layout from '../Layout/Layout';
-import Locale from '../../utils/Locale';
+import Locale from '../../service/Locale';
 import useStore from '../../hooks/useStore';
-import useInitMenu from '../../hooks/useInitMenu';
 import LocalData from '../../utils/LocalData';
+import sendMenuRequest from '../../service/network/getMenu';
 
 const App = () => {
-  const { appState, user } = useStore();
-  const initMenu = useInitMenu();
+  const { appState, user, order } = useStore();
 
   useEffect(() => {
     Locale.init(() => {
@@ -26,8 +25,19 @@ const App = () => {
   }, [user]);
 
   useEffect(() => {
-    initMenu();
-  }, [initMenu]);
+    sendMenuRequest()
+      .then((response) => {
+        const menuData = response.menu.map((cat) => ({
+          id: cat.title,
+          title: cat.title,
+          items: [...cat.items],
+        }));
+        order.setMenuData(menuData);
+      })
+      .catch((err) => {
+        appState.setError(err);
+      });
+  }, [appState, order]);
 
   return (
     <BrowserRouter>

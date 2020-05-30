@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './MealCard.module.css';
-import Locale from '../../../utils/Locale';
+import Locale from '../../../service/Locale';
 import LocaleKey from '../../../const/LocaleKey';
 import Button from '../../Button/Button';
 

@@ -15,11 +15,18 @@ class Locale {
     this.instance.init(completeCallback);
   }
 
-  static get(key: string, ...args: string[]) {
+  static get(key: string, ...args: string[]): string {
     if (!this.instance) {
       return key;
     }
     return this.instance.get(key, ...args);
+  }
+
+  static contains(key: string):boolean {
+    if (!this.instance) {
+      return false;
+    }
+    return this.instance.contains(key);
   }
 
 
@@ -44,6 +51,10 @@ class Locale {
       value = value.replace(`{${i}}`, args[i]);
     }
     return value;
+  }
+
+  contains(key: string):boolean {
+    return this.data[key] !== undefined;
   }
 }
 

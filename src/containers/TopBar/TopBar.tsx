@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationBar, { NavigationItemData } from '../../components/NavigationBar/NavigationBar';
 import styles from './TopBar.module.css';
 import AppPath from '../../const/AppPath';
-import Locale from '../../utils/Locale';
+import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 import useStore from '../../hooks/useStore';
 import { observer } from 'mobx-react';

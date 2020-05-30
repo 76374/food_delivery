@@ -1,5 +1,5 @@
 import React from 'react';
-import Locale from '../../utils/Locale';
+import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 import Button from '../Button/Button';
 import styles from './CheckoutItem.module.css';
