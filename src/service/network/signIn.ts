@@ -7,9 +7,10 @@ const query = `
     signIn(input: $input) {
       token
       user {
-          firstName
-          lastName
-          email
+        id
+        firstName
+        lastName
+        email
       }
     }
   }
@@ -27,18 +28,23 @@ const getRequest = (signInData: SignInData): RequestData => {
   };
 };
 
-interface SignInResponse {
-  signIn: {
-    token: string;
-    user: {
-      firstName: string;
-      lastName: string;
-      email: string;
-    };
-  };
-}
-
 const sendRequest = (signInData: SignInData) =>
   Network.post<SignInResponse>(getRequest(signInData));
+
+interface SignInResponse {
+  signIn: AuthData;
+}
+
+export interface AuthData {
+  token: string;
+  user: UserDetails;
+}
+
+export interface UserDetails {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
 
 export default sendRequest;

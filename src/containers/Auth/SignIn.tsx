@@ -6,6 +6,7 @@ import SignInForm from '../../components/AuthForm/SignInForm';
 import useStore from '../../hooks/useStore';
 import AppPath from '../../const/AppPath';
 import sendRequest from '../../service/network/signIn';
+import handleAuthData from './handleSignIn';
 
 const SignIn = (props: RouteComponentProps) => {
   const { order, user, appState } = useStore();
@@ -13,9 +14,7 @@ const SignIn = (props: RouteComponentProps) => {
   const onSubmit = (signInData: SignInData) => {
     sendRequest(signInData)
       .then((response) => {
-        const userData = response.signIn.user;
-        user.setUserDetails(userData.firstName, userData.lastName, userData.email);
-        user.setToken(response.signIn.token);
+        handleAuthData(user, response.signIn);
 
         props.history.push(order.containsOrderedItems ? AppPath.CHECKOUT : AppPath.ORDER);
       })

@@ -1,6 +1,7 @@
 import RequestData from '../../dto/RequestData';
 import SignUpData from '../../dto/SignUpData';
 import Network from './Network';
+import { AuthData } from './signIn';
 
 const query = `
   mutation SignUp($input: SignUpInput!) {
@@ -30,14 +31,7 @@ const getRequest = (signUpData: SignUpData): RequestData => {
 };
 
 interface SignUpResponse {
-  signUp: {
-    token: string;
-    user: {
-      firstName: string;
-      lastName: string;
-      email: string;
-    };
-  };
+  signUp: AuthData;
 }
 
 const sendRequest = (signUpData: SignUpData) =>

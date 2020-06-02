@@ -6,15 +6,14 @@ import useStore from '../../hooks/useStore';
 import AppPath from '../../const/AppPath';
 import SignUpData from '../../dto/SignUpData';
 import sendRequest from '../../service/network/signUp';
+import handleAuthData from './handleSignIn';
 
 const SignUp = (props: RouteComponentProps) => {
   const { order, user } = useStore();
 
   const onSubmit = (signUpData: SignUpData) => {
     sendRequest(signUpData).then((response) => {
-      const userData = response.signUp.user;
-      user.setUserDetails(userData.firstName, userData.lastName, userData.email);
-      user.setToken(response.signUp.token);
+      handleAuthData(user, response.signUp);
 
       props.history.push(order.containsOrderedItems ? AppPath.CHECKOUT : AppPath.ORDER);
     });

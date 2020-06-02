@@ -1,11 +1,6 @@
-const DATA_KEY: string = 'firstName';
+import UserData from "../dto/UserData";
 
-interface UserData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  token: string;
-}
+const DATA_KEY: string = 'user';
 
 class LocalData {
   static readUserData = (): UserData | null => {
