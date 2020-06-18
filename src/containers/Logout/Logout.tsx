@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
-import useLocalData from '../../hooks/useLocalData';
 import { RouteComponentProps } from 'react-router';
+import useStore from '../../hooks/useStore';
+import LocalData from '../../utils/LocalData';
 
 const Logout = (props: RouteComponentProps) => {
   const { history } = props;
-  const { clearUserData } = useLocalData();
+  const { user } = useStore();
   useEffect(() => {
-    clearUserData();
+    LocalData.clearUserData();
+    user.signOut();
+    
     history.goBack();
-  }, [clearUserData, history]);
+  }, [user, history]);
 
   return null;
 };
