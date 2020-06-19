@@ -1,9 +1,7 @@
-import { EmailValidationError, PwdValidationError, NameValidationError } from './validator';
+import { EmailValidationError, PwdValidationError, NameValidationError, ValidationError } from './validator';
 import LocaleKey from '../const/LocaleKey';
 
-const getAuthErrorKey = (
-  error: EmailValidationError | PwdValidationError | NameValidationError
-): string | null => {
+const getAuthErrorKey = (error: ValidationError): string | null => {
   switch (error) {
     case EmailValidationError.IsEmpty:
     case PwdValidationError.IsEmpty:

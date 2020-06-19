@@ -2,6 +2,8 @@
   "currency_format_uah": "{0} грн",
   "items_count_format": "{0}  шт.",
 
+  "generic_bt_cancel": "Відміна",
+
   "auth_bt_sign_in": "Увійти",
   "auth_bt_sign_up": "Вiдправити",
   "auth_title_sign_in": "Вхід",

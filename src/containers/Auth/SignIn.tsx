@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import SignInData from '../../dto/SignInData';
-import SignInForm from '../../components/AuthForm/SignInForm';
+import SignInPopup from './SignInPopup';
 import useStore from '../../hooks/useStore';
 import sendRequest from '../../service/network/signIn';
 import handleAuthData from './handleAuthData';
@@ -27,7 +27,7 @@ const SignIn = () => {
   };
 
   if (appState.authPopup === 'signIn') {
-    return <SignInForm onSubmit={onSignInSubmit} onCancel={onCancel} />;
+    return <SignInPopup onSubmit={onSignInSubmit} onCancel={onCancel} />;
   }
 
   return null;

@@ -1,6 +1,8 @@
 class LocaleKey {
   static readonly CURRENCY_FORMAT_UAH = 'currency_format_uah';
 
+  static readonly GENERIC_BT_CANCEL = 'generic_bt_cancel';
+
   static readonly AUTH_BT_SIGN_IN = 'auth_bt_sign_in';
   static readonly AUTH_BT_SIGN_UP = 'auth_bt_sign_up';
   static readonly AUTH_TITLE_SIGN_IN = 'auth_title_sign_in';
@@ -33,6 +35,6 @@ class LocaleKey {
 
   static readonly SERVER_ERROR = 'server_error';
   static readonly NETWORK_ERROR = 'network_error';
-};
+}
 
 export default LocaleKey;

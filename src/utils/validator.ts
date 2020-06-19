@@ -1,6 +1,6 @@
 enum GenericError {
   None = 0,
-  IsEmpty = 1
+  IsEmpty = 1,
 }
 
 enum EmailValidationError {
@@ -74,6 +74,8 @@ const pwdValidator = (
   };
 };
 
+type ValidationError = EmailValidationError | PwdValidationError | NameValidationError;
+
 export {
   emailValidator,
   EmailValidationError,
@@ -82,3 +84,5 @@ export {
   pwdValidator,
   PwdValidationError,
 };
+
+export type { ValidationError };
