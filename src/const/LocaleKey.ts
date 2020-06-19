@@ -1,12 +1,16 @@
 class LocaleKey {
   static readonly CURRENCY_FORMAT_UAH = 'currency_format_uah';
 
+  static readonly AUTH_BT_SIGN_IN = 'auth_bt_sign_in';
+  static readonly AUTH_BT_SIGN_UP = 'auth_bt_sign_up';
+  static readonly AUTH_TITLE_SIGN_IN = 'auth_title_sign_in';
+  static readonly AUTH_TITLE_SIGN_UP = 'auth_title_sign_up';
+
   static readonly AUTH_INPUT_FIRST_NAME = 'auth_input_first_name';
   static readonly AUTH_INPUT_LAST_NAME = 'auth_input_last_name';
   static readonly AUTH_INPUT_EMAIL = 'auth_input_email';
   static readonly AUTH_INPUT_PWD = 'auth_input_pwd';
-  static readonly AUTH_BT_SIGN_IN = 'auth_bt_sign_in';
-  static readonly AUTH_BT_SIGN_UP = 'auth_bt_sign_up';
+
   static readonly AUTH_INPUT_INVALID_EMAIL = 'auth_input_invalid_email';
   static readonly AUTH_INPUT_EMPTY_FIELD = 'auth_input_empty_field';
   static readonly AUTH_INPUT_PWD_SHORT = 'auth_input_pwd_short';

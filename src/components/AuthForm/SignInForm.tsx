@@ -1,9 +1,13 @@
-import React from 'react';
-import styles from './AuthForm.module.css';
+import React, { ChangeEvent } from 'react';
+import { useLocalStore, observer } from 'mobx-react';
+import Modal from 'react-bootstrap/Modal';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
-import Button from '../Button/Button';
-import { useLocalStore, observer } from 'mobx-react';
 import SignInData from '../../dto/SignInData';
 import {
   emailValidator,
@@ -11,7 +15,6 @@ import {
   pwdValidator,
   PwdValidationError,
 } from '../../utils/validator';
-import InputField from './InputField';
 import { getAuthErrorKey } from '../../utils/LocaleKeyUtil';
 
 const validateEmail: (value: string) => EmailValidationError = emailValidator();
@@ -27,20 +30,33 @@ const SignInForm = (props: SignInProps) => {
     emailError: EmailValidationError.None,
     pwd: '',
     pwdError: PwdValidationError.None,
+    validated: false,
+    submited: false,
   }));
 
-  const onEmailChanged = (value: string): void => {
-    localStore.email = value;
+  //const onEmailChanged = (value: string): void => {
+  const onEmailChanged = (event: ChangeEvent<HTMLInputElement>): void => {
+    const email = event.target.value;
+    localStore.email = email;
+    if (localStore.validated) {
+      localStore.emailError = validateEmail(email);
+    }
   };
-  const onPwdChanged = (value: string): void => {
-    localStore.pwd = value;
+  const onPwdChanged = (event: ChangeEvent<HTMLInputElement>): void => {
+    const pwd = event.target.value;
+    localStore.pwd = pwd;
+    if (localStore.validated) {
+      localStore.pwdError = validatePwd(pwd);
+    }
   };
   const onSubmit = () => {
+    localStore.validated = true;
     localStore.emailError = validateEmail(localStore.email);
     localStore.pwdError = validatePwd(localStore.pwd);
 
     const hasError = localStore.emailError || localStore.pwdError;
-    if (!hasError && props.onSubmit) {
+    if (!hasError) {
+      localStore.submited = true;
       props.onSubmit({
         email: localStore.email,
         pwd: localStore.pwd,
@@ -49,25 +65,46 @@ const SignInForm = (props: SignInProps) => {
   };
 
   return (
-    <div className={styles.AuthForm}>
-      <InputField
-        label={Locale.get(LocaleKey.AUTH_INPUT_EMAIL)}
-        onChange={onEmailChanged}
-        errorMessage={getLocale(getAuthErrorKey(localStore.emailError))}
-      />
-      <InputField
-        label={Locale.get(LocaleKey.AUTH_INPUT_PWD)}
-        onChange={onPwdChanged}
-        errorMessage={getLocale(getAuthErrorKey(localStore.pwdError))}
-        isPassword
-      />
-      <Button text={Locale.get(LocaleKey.AUTH_BT_SIGN_IN)} onClick={onSubmit} />
-    </div>
+    <Modal show onHide={props.onCancel}>
+      <Modal.Header><h5>{Locale.get(LocaleKey.AUTH_TITLE_SIGN_IN)}</h5></Modal.Header>
+      <Modal.Body>
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder={Locale.get(LocaleKey.AUTH_INPUT_EMAIL)}
+            isInvalid={localStore.emailError !== EmailValidationError.None}
+            isValid={localStore.validated && localStore.emailError === EmailValidationError.None}
+            onChange={onEmailChanged}
+          />
+          <Form.Control.Feedback type="invalid">
+            {getLocale(getAuthErrorKey(localStore.emailError))}
+          </Form.Control.Feedback>
+        </InputGroup>
+        <InputGroup className="mb-3">
+          <FormControl
+            placeholder={Locale.get(LocaleKey.AUTH_INPUT_PWD)}
+            isInvalid={localStore.pwdError !== PwdValidationError.None}
+            isValid={localStore.validated && localStore.pwdError === PwdValidationError.None}
+            onChange={onPwdChanged}
+          />
+          <Form.Control.Feedback type="invalid">
+            {getLocale(getAuthErrorKey(localStore.pwdError))}
+          </Form.Control.Feedback>
+        </InputGroup>
+      </Modal.Body>
+      <Modal.Footer className="">
+        {localStore.submited ? (
+          <Spinner animation="border" variant="primary" />
+        ) : (
+          <Button onClick={onSubmit}>{Locale.get(LocaleKey.AUTH_BT_SIGN_IN)}</Button>
+        )}
+      </Modal.Footer>
+    </Modal>
   );
 };
 
 interface SignInProps {
   onSubmit(signInData: SignInData): void;
+  onCancel(): void;
 }
 
 export default observer(SignInForm);

@@ -26,11 +26,11 @@ const Layout = () => {
       <ErrorHandler />
       {appState.loading ? <Loading /> : null}
       <TopBar />
+      <SignIn/>
       <Switch>
         <Route path={AppPath.ORDER} exact component={Order} />
         <Route path={AppPath.CHECKOUT} exact component={Checkout} />
         <Route path={AppPath.ORDER_SUCCESS} exact component={OrderSuccess} />
-        <Route path={AppPath.SIGN_IN} exact component={SignIn} />
         <Route path={AppPath.SIGN_UP} exact component={SignUp} />
         <Route path={AppPath.LOGOUT} exact component={Logout} />
         <Redirect to={AppPath.ORDER} />

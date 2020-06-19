@@ -6,7 +6,7 @@ import useStore from '../../hooks/useStore';
 import AppPath from '../../const/AppPath';
 import SignUpData from '../../dto/SignUpData';
 import sendRequest from '../../service/network/signUp';
-import handleAuthData from './handleSignIn';
+import handleAuthData from './handleAuthData';
 
 const SignUp = (props: RouteComponentProps) => {
   const { order, user } = useStore();

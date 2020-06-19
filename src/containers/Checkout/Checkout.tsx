@@ -29,7 +29,7 @@ const Checkout = (props: RouteComponentProps) => {
           appState.setError(err);
         });
     } else {
-      props.history.push(AppPath.SIGN_IN);
+      appState.setAuthPopup('signIn');
     }
   };
 

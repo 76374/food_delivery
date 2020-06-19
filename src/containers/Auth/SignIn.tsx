@@ -1,33 +1,36 @@
 import React from 'react';
-import styles from './Auth.module.css';
-import { RouteComponentProps } from 'react-router';
+import { observer } from 'mobx-react';
 import SignInData from '../../dto/SignInData';
 import SignInForm from '../../components/AuthForm/SignInForm';
 import useStore from '../../hooks/useStore';
-import AppPath from '../../const/AppPath';
 import sendRequest from '../../service/network/signIn';
-import handleAuthData from './handleSignIn';
+import handleAuthData from './handleAuthData';
 
-const SignIn = (props: RouteComponentProps) => {
-  const { order, user, appState } = useStore();
+const SignIn = () => {
+  const { user, appState } = useStore();
 
-  const onSubmit = (signInData: SignInData) => {
+  const onSignInSubmit = (signInData: SignInData) => {
     sendRequest(signInData)
       .then((response) => {
         handleAuthData(user, response.signIn);
-
-        props.history.push(order.containsOrderedItems ? AppPath.CHECKOUT : AppPath.ORDER);
       })
       .catch((err) => {
         appState.setError(err);
+      })
+      .then(() => {
+        appState.setAuthPopup(null);
       });
   };
 
-  return (
-    <div className={styles.Auth}>
-      <SignInForm onSubmit={onSubmit} />
-    </div>
-  );
+  const onCancel = () => {
+    appState.setAuthPopup(null);
+  };
+
+  if (appState.authPopup === 'signIn') {
+    return <SignInForm onSubmit={onSignInSubmit} onCancel={onCancel} />;
+  }
+
+  return null;
 };
 
-export default SignIn;
+export default observer(SignIn);

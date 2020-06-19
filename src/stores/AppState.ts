@@ -1,5 +1,7 @@
 import { observable, action } from 'mobx';
 
+type AuthPopup = null | 'signIn' | 'signUp';
+
 class AppState {
   @observable
   private _localeReady: boolean = false;
@@ -9,6 +11,9 @@ class AppState {
 
   @observable
   private _error: any | null = null;
+
+  @observable 
+  private _authPopup: AuthPopup = null;
 
   processes: string[] = [];
 
@@ -56,6 +61,15 @@ class AppState {
   @action
   setLocaleReady() {
     this._localeReady = true;
+  }
+
+  get authPopup(): AuthPopup {
+    return this._authPopup;
+  }
+
+  @action
+  setAuthPopup(value: AuthPopup) {
+    this._authPopup = value;
   }
 }
 
