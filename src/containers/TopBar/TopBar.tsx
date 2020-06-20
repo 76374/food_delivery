@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import Nav from 'react-bootstrap/Nav';
@@ -9,6 +9,8 @@ import AppPath from '../../const/AppPath';
 import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 import useStore from '../../hooks/useStore';
+import LocalData from '../../utils/LocalData';
+import { useCallback } from 'react';
 
 const getLink = (link: string, text: string) => (
   <Nav.Link as={Link} to={link} eventKey={link} key={`#navBarItem${link}`}>
@@ -28,6 +30,11 @@ const TopBar = () => {
     appState.setAuthPopup('signUp');
   }, [appState]);
 
+  const logoutClickHandler = useCallback(() => {
+    LocalData.clearUserData();
+    user.signOut();
+  }, [user]);
+
   return (
     <Navbar expand="sm">
       <Nav className="mr-auto" activeKey={location.pathname}>
@@ -35,7 +42,9 @@ const TopBar = () => {
         {getLink(AppPath.CHECKOUT, Locale.get(LocaleKey.TOP_BAR_BT_CHECKOUT))}
       </Nav>
       {user.isSignedIn ? (
-        <Button>{Locale.get(LocaleKey.TOP_BAR_BT_LOGOUT, user.firstName)}</Button>
+        <Button onClick={logoutClickHandler}>
+          {Locale.get(LocaleKey.TOP_BAR_BT_LOGOUT, user.firstName)}
+        </Button>
       ) : (
         <ButtonGroup>
           <Button variant="outline-primary" onClick={signInClickHandler}>

@@ -2,7 +2,6 @@ import React from 'react';
 import { useLocalStore, observer } from 'mobx-react';
 import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
-import SignInData from '../../dto/SignInData';
 import {
   emailValidator,
   EmailValidationError,
@@ -13,28 +12,30 @@ import {
 import { getAuthErrorKey } from '../../utils/LocaleKeyUtil';
 import AuthPopup from '../../components/AuthForm/AuthPopup';
 import AuthForm from '../../components/AuthForm/AuthForm';
-
-interface SignInPopupProps {
-  onSubmit(signInData: SignInData): void;
-  onCancel(): void;
-}
+import sendRequest from '../../service/network/signIn';
+import useStore from '../../hooks/useStore';
+import handleAuthData from './handleAuthData';
 
 const validateEmail: (value: string) => EmailValidationError = emailValidator();
-const validatePwd: (value: string) => PwdValidationError = pwdValidator();
+const validatePwd: (value: string) => PwdValidationError = pwdValidator(0);
 
 const getFormField = (
   placeHolderKey: string,
   error: ValidationError,
-  onChange: (value: string) => void
+  onChange: (value: string) => void,
+  isPassword?: boolean
 ) => ({
   placeholder: Locale.get(placeHolderKey),
   error: error ? Locale.get(String(getAuthErrorKey(error))) : null,
-  onChange: onChange,
+  isPassword,
+  onChange,
 });
 
 const containsError = (store: any) => store.emailError !== 0 || store.pwdError !== 0;
 
-const SignInPopup = (props: SignInPopupProps) => {
+const SignInPopup = () => {
+  const { user, appState } = useStore();
+
   const localStore = useLocalStore(() => ({
     email: '',
     emailError: EmailValidationError.None,
@@ -42,6 +43,7 @@ const SignInPopup = (props: SignInPopupProps) => {
     pwdError: PwdValidationError.None,
     validated: false,
     submited: false,
+    error: null,
   }));
 
   const onEmailChanged = (email: string): void => {
@@ -63,30 +65,48 @@ const SignInPopup = (props: SignInPopupProps) => {
     localStore.emailError = validateEmail(localStore.email);
     localStore.pwdError = validatePwd(localStore.pwd);
 
-    const hasError = localStore.emailError !== 0 || localStore.pwdError !== 0;
-    if (!hasError) {
+    if (!containsError(localStore)) {
       localStore.submited = true;
-      props.onSubmit({
+
+      sendRequest({
         email: localStore.email,
         pwd: localStore.pwd,
-      });
+      })
+        .then((response) => {
+          handleAuthData(user, response.signIn);
+          appState.setAuthPopup(null);
+        })
+        .catch((err) => {
+          console.log(err);
+          localStore.submited = false;
+          localStore.error = Locale.contains(err.key) ? Locale.get(err.key) : err.message;
+        });
     }
   };
 
-  const getFields = () => [
+  const onCancel = () => {
+    appState.setAuthPopup(null);
+  };
+
+  if (appState.authPopup !== 'signIn') {
+    return null;
+  }
+
+  const fields = [
     getFormField(LocaleKey.AUTH_INPUT_EMAIL, localStore.emailError, onEmailChanged),
-    getFormField(LocaleKey.AUTH_INPUT_PWD, localStore.pwdError, onPwdChanged),
+    getFormField(LocaleKey.AUTH_INPUT_PWD, localStore.pwdError, onPwdChanged, true),
   ];
 
   return (
     <AuthPopup
       header={Locale.get(LocaleKey.AUTH_TITLE_SIGN_IN)}
       submitText={Locale.get(LocaleKey.AUTH_BT_SIGN_IN)}
+      error={localStore.error}
       isLoading={localStore.submited}
       submitDisabled={localStore.validated && containsError(localStore)}
       onSubmit={onSubmit}
-      onCancel={props.onCancel}
-      content={<AuthForm fields={getFields()} showValid={localStore.validated} />}
+      onCancel={onCancel}
+      content={<AuthForm fields={fields} showValid={localStore.validated} />}
     />
   );
 };

@@ -9,12 +9,14 @@ import {
   PwdValidationError,
   NameValidationError,
   nameValidator,
-  ValidationError
+  ValidationError,
 } from '../../utils/validator';
 import { getAuthErrorKey } from '../../utils/LocaleKeyUtil';
-import SignUpData from '../../dto/SignUpData';
 import AuthPopup from '../../components/AuthForm/AuthPopup';
 import AuthForm from '../../components/AuthForm/AuthForm';
+import sendRequest from '../../service/network/signUp';
+import handleAuthData from './handleAuthData';
+import useStore from '../../hooks/useStore';
 
 const validateName = nameValidator();
 const validateEmail = emailValidator();
@@ -23,11 +25,13 @@ const validatePwd = pwdValidator();
 const getFormField = (
   placeHolderKey: string,
   error: ValidationError,
-  onChange: (value: string) => void
+  onChange: (value: string) => void,
+  isPassword?: boolean
 ) => ({
   placeholder: Locale.get(placeHolderKey),
   error: error ? Locale.get(String(getAuthErrorKey(error))) : null,
-  onChange: onChange,
+  isPassword,
+  onChange,
 });
 
 const containsError = (store: any) =>
@@ -36,7 +40,9 @@ const containsError = (store: any) =>
   store.emailError !== 0 ||
   store.pwdError !== 0;
 
-const SignUpPopup = (props: SignUpPopupProps) => {
+const SignUpPopup = () => {
+  const { user, appState } = useStore();
+
   const localStore = useLocalStore(() => ({
     firstName: '',
     firstNameError: NameValidationError.None,
@@ -48,6 +54,7 @@ const SignUpPopup = (props: SignUpPopupProps) => {
     pwdError: PwdValidationError.None,
     validated: false,
     submited: false,
+    error: null,
   }));
 
   const onFirstNameChanged = (value: string) => {
@@ -82,25 +89,39 @@ const SignUpPopup = (props: SignUpPopupProps) => {
     localStore.emailError = validateEmail(localStore.email);
     localStore.pwdError = validatePwd(localStore.pwd);
 
-    if (containsError(localStore)) {
-      return;
-    }
+    if (!containsError(localStore)) {
+      localStore.submited = true;
 
-    if (props.onSubmit) {
-      props.onSubmit({
+      sendRequest({
         firstName: localStore.firstName,
         lastName: localStore.lastName,
         email: localStore.email,
         pwd: localStore.pwd,
-      });
+      })
+        .then((response) => {
+          handleAuthData(user, response.signUp);
+          appState.setAuthPopup(null);
+        })
+        .catch((err) => {
+          localStore.submited = false;
+          localStore.error = Locale.contains(err.key) ? Locale.get(err.key) : err.message;
+        });
     }
   };
 
-  const getFields = () => [
+  const onCancel = () => {
+    appState.setAuthPopup(null);
+  };
+
+  if (appState.authPopup !== 'signUp') {
+    return null;
+  }
+
+  const fields = [
     getFormField(LocaleKey.AUTH_INPUT_FIRST_NAME, localStore.firstNameError, onFirstNameChanged),
     getFormField(LocaleKey.AUTH_INPUT_LAST_NAME, localStore.lastNameError, onLastNameChanged),
     getFormField(LocaleKey.AUTH_INPUT_EMAIL, localStore.emailError, onEmailChanged),
-    getFormField(LocaleKey.AUTH_INPUT_PWD, localStore.pwdError, onPwdChanged),
+    getFormField(LocaleKey.AUTH_INPUT_PWD, localStore.pwdError, onPwdChanged, true),
   ];
 
   return (
@@ -108,17 +129,13 @@ const SignUpPopup = (props: SignUpPopupProps) => {
       header={Locale.get(LocaleKey.AUTH_TITLE_SIGN_UP)}
       submitText={Locale.get(LocaleKey.AUTH_BT_SIGN_UP)}
       isLoading={localStore.submited}
+      error={localStore.error}
       submitDisabled={localStore.validated && containsError(localStore)}
       onSubmit={onSubmit}
-      onCancel={props.onCancel}
-      content={<AuthForm fields={getFields()} showValid={localStore.validated} />}
+      onCancel={onCancel}
+      content={<AuthForm fields={fields} showValid={localStore.validated} />}
     />
   );
 };
-
-interface SignUpPopupProps {
-  onSubmit(signUpData: SignUpData): void;
-  onCancel(): void;
-}
 
 export default observer(SignUpPopup);

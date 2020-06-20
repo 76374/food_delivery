@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
 import Locale from '../../service/Locale';
 import LocaleKey from '../../const/LocaleKey';
 
@@ -11,7 +12,10 @@ const AuthPopup = (props: AuthPopupProps) => {
       <Modal.Header>
         <h5>{props.header}</h5>
       </Modal.Header>
-      <Modal.Body>{props.content} </Modal.Body>
+      <Modal.Body>
+        {props.error && <Alert variant="danger">{props.error}</Alert>}
+        {props.content}
+      </Modal.Body>
       <Modal.Footer className="">
         {props.isLoading ? (
           <Spinner animation="border" variant="primary" />
@@ -33,6 +37,7 @@ const AuthPopup = (props: AuthPopupProps) => {
 interface AuthPopupProps {
   header: string;
   content: JSX.Element;
+  error: String | null;
   submitText: string;
   isLoading: boolean;
   submitDisabled: boolean;

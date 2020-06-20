@@ -16,8 +16,8 @@
 
   "auth_input_invalid_email": "Не буває такої пошти",
   "auth_input_empty_field": "Обов`язкове поле",
-  "auth_input_pwd_short": "Щось мавловато",
-  "auth_input_pwd_long": "Ще довше не було там?",
+  "auth_input_pwd_short": "Замалий",
+  "auth_input_pwd_long": "Дуже довгий",
   "auth_input_name_short": "Мало букв",
   "auth_input_name_long": "Багато букв",
   "auth_input_invalid_character": "Незрозумілі символи",
@@ -34,7 +34,8 @@
   "top_bar_bt_sign_up": "Зареєструватися",
   "top_bar_bt_logout": "Вийти ({0})",
 
-  "server_error": "помилка на сервері",
-  "network_error": "немає зв'язку",
-  "authorization_failed": "Шось не підходе"
+  "server_error": "Помилка на сервері",
+  "wrong_credentials": "Непідійов пароль або ім'я",
+  "network_error": "Немає зв'язку",
+  "user_exists": "вже є така пошта"
 }

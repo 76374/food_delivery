@@ -43,6 +43,9 @@ const nameValidator = (
 ): ((value: string) => NameValidationError) => {
   const regex = /[^\u0400-\u04FFa-zA-Z-]/;
   return (value: string) => {
+    if (!value) {
+      return NameValidationError.IsEmpty;
+    }
     if (value.length < min) {
       return NameValidationError.TooShort;
     }
