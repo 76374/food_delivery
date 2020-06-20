@@ -76,7 +76,7 @@ const SignUpPopup = (props: SignUpPopupProps) => {
   };
 
   const onSubmit = () => {
-    // to check if fields haven't been edited
+    localStore.validated = true;
     localStore.firstNameError = validateName(localStore.firstName);
     localStore.lastNameError = validateName(localStore.lastName);
     localStore.emailError = validateEmail(localStore.email);
