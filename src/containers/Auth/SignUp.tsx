@@ -1,29 +1,35 @@
 import React from 'react';
-import styles from './Auth.module.css';
-import { RouteComponentProps } from 'react-router';
-import SignUpForm from '../../components/AuthForm/SignUpForm';
+import { observer } from 'mobx-react';
 import useStore from '../../hooks/useStore';
-import AppPath from '../../const/AppPath';
 import SignUpData from '../../dto/SignUpData';
 import sendRequest from '../../service/network/signUp';
 import handleAuthData from './handleAuthData';
+import SignUpPopup from './SignUpPopup';
 
-const SignUp = (props: RouteComponentProps) => {
-  const { order, user } = useStore();
+const SignUp = () => {
+  const { user, appState } = useStore();
 
   const onSubmit = (signUpData: SignUpData) => {
-    sendRequest(signUpData).then((response) => {
-      handleAuthData(user, response.signUp);
-
-      props.history.push(order.containsOrderedItems ? AppPath.CHECKOUT : AppPath.ORDER);
-    });
+    sendRequest(signUpData)
+      .then((response) => {
+        handleAuthData(user, response.signUp);
+      })
+      .catch((err) => {
+        appState.setError(err);
+      })
+      .then(() => {
+        appState.setAuthPopup(null);
+      });
   };
 
-  return (
-    <div className={styles.Auth}>
-      <SignUpForm onSubmit={onSubmit} />
-    </div>
-  );
+  const onCancel = () => {
+    appState.setAuthPopup(null);
+  };
+
+  if (appState.authPopup === 'signUp') {
+    return <SignUpPopup onSubmit={onSubmit} onCancel={onCancel} />;
+  }
+  return null;
 };
 
-export default SignUp;
+export default observer(SignUp);
